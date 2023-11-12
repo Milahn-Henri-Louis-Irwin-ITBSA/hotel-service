@@ -5,7 +5,26 @@ import axios from 'axios';
 export default class HotelSvc {
   constructor() {}
 
+  public async getSuburb(lat: any, long: any) {
+    try {
+      const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your own API key
+      const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${apiKey}`;  
+
+    } catch (error: any) {
+      console.error('Error fetching data from Google Maps API:', error.message);
+      return Promise.reject({
+        status: 500,
+        message: error,
+      });
+    }
+  }
+
   public async getHotelInfo() {
+    const suburb = 'Randburg';
+    const arrivalDate = '';
+    const departureDate = '';
+    const guestQty = 1;
+
     const options = {
       method: 'GET',
       url: 'https://apidojo-booking-v1.p.rapidapi.com/properties/list',
@@ -30,8 +49,6 @@ export default class HotelSvc {
         'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com',
       },
     };
-
-    
 
     const response = await axios.request(options);
     return response.data;
