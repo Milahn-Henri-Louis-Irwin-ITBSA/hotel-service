@@ -2,16 +2,17 @@ import 'reflect-metadata';
 import 'module-alias/register';
 import express from 'express';
 import * as bodyParser from 'body-parser';
+import { rateLimit } from 'express-rate-limit';
 import Container from 'typedi';
 import { ENV_CONFIG } from '../app/config';
 import { Logger } from '../libs/logger';
+import { config } from 'dotenv';
 import {
   useExpressServer,
   useContainer as routingContainer,
 } from 'routing-controllers';
 import * as http from 'http';
 import cors from 'cors';
-import { rateLimit } from 'express-rate-limit';
 
 const baseDir = __dirname;
 const expressApp = express();
@@ -25,6 +26,7 @@ expressApp.use(
   })
 );
 
+// Continue with other middleware
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   message: 'Too many requests from this IP, please try again after 5 minutes',
@@ -43,15 +45,18 @@ useExpressServer(expressApp, {
   controllers: [baseDir + `/**/controllers/*{.js,.ts}`],
 });
 
+config();
+
 expressApp.use(bodyParser.urlencoded({ extended: false }));
 expressApp.use(bodyParser.json());
 expressApp.use('/v1/api', limiter);
 expressApp.get('/', (req, res) => {
   res.status(200).json({
-    service: 'hotels',
+    service: 'hotel',
     status: 'ok',
   });
 });
+
 const server = http.createServer(expressApp);
 server.listen(ENV_CONFIG.app.port, () => {
   Logger.info(
