@@ -6,7 +6,7 @@ import {
 } from 'routing-controllers';
 import { Service } from 'typedi';
 import { URL_INFO } from '../hotelApiInfo';
-import HotelApi from '../../../libs/HotelApi';
+import HotelApi from '../service/HotelApiSvc';
 
 @JsonController(URL_INFO.contextPath + '/hotel')
 @Service()

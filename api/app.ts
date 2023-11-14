@@ -30,7 +30,7 @@ expressApp.use(
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
   message: 'Too many requests from this IP, please try again after 5 minutes',
-  limit: 50,
+  limit: 5,
   standardHeaders: false,
   legacyHeaders: true,
 });
