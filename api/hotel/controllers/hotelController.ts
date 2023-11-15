@@ -14,7 +14,8 @@ export class HotelController {
   @Post('/nearby')
   public async getNearbyHotels(
     @HeaderParam('Authorization') authorization: string,
-    @BodyParam('coordinates') coordinates: any,
+    @BodyParam('coordinates')
+    coordinates: { latitude: number; longitude: number },
     @BodyParam('radius') radius: number
   ) {
     try {
@@ -65,7 +66,8 @@ export class HotelController {
 
       return Promise.resolve({
         status: 200,
-        hotels: data,
+        service: 'tripwiz-hotel',
+        places: data?.places ?? [],
       });
     } catch (error) {
       return Promise.resolve({
