@@ -11,7 +11,7 @@ export default class HotelApi {
         process.env.HOTEL_API_URL,
         {
           includedTypes: ['hotel'],
-          maxResultCount: 10,
+          maxResultCount: 20,
           locationRestriction: {
             circle: {
               center: {
